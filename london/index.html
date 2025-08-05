@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инфографика: Анализ повести «Белый Клык»</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Brilliant Blues -->
+    <!-- Application Structure Plan: The infographic follows a narrative structure designed to tell a story. It begins with a strong visual hook (the "Two Paths" chart) to establish the core thesis. It then provides essential context (The Klondike Gold Rush) using high-impact stats. The central section is an interactive flowchart visualizing the "Formation of White Fang," allowing users to explore the cause-and-effect relationship between environment and behavior. The final section covers the publication and legacy. This structure transforms the dense report into an engaging, digestible journey for the user, prioritizing narrative flow over the original document's layout. -->
+    <!-- Visualization & Content Choices:
+        1. Report Info: "Inverse process" comparison to "The Call of the Wild". Goal: Compare. Viz/Method: Line Chart (Chart.js). Justification: A line chart visually and immediately communicates the opposing trajectories of the two protagonists, which is the report's central analytical point.
+        2. Report Info: Klondike Gold Rush statistics. Goal: Inform. Viz/Method: Large number callouts (HTML/CSS). Justification: Conveys the scale and difficulty of the historical event with maximum impact and minimal clutter.
+        3. Report Info: Table 2 (Formation of White Fang). Goal: Organize/Show Process. Viz/Method: Interactive flowchart using structured HTML/CSS with Tailwind. Justification: Transforms a static table into an engaging, user-driven exploration of the protagonist's development, reinforcing the theme of environmental influence.
+        4. Report Info: Table 1 (Publication Chronology). Goal: Change/Show Time. Viz/Method: Vertical timeline using HTML/CSS. Justification: Clearly and cleanly presents chronological data in a universally understood format.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        h1, h2, h3 {
+            font-family: 'Roboto Slab', serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .flow-arrow {
+            color: #7A5195;
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .stage-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-[#003F5C] text-white">
+
+    <div class="container mx-auto px-4 py-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-white">БЕЛЫЙ КЛЫК</h1>
+            <p class="text-xl md:text-2xl mt-4 text-gray-300">Фактологический анализ повести Джека Лондона</p>
+        </header>
+
+        <section id="intro" class="my-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#FFA600]">Два Пути: Зеркальные Судьбы</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-200 mb-8">
+                «Белый Клык» (1906) был задуман Джеком Лондоном как тематическое дополнение к его повести «Зов предков» (1903). Это не продолжение, а «обратный процесс»: если пёс Бэк проходит путь от цивилизации к дикости, то волк Белый Клык — от дикости к цивилизации.
+            </p>
+            <div class="bg-white/10 p-4 md:p-6 rounded-lg shadow-xl">
+                <div class="chart-container">
+                    <canvas id="pathsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="context" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#FFA600]">Горнило Клондайка: Среда, Диктующая Законы</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-200 mb-12">
+                Действие повести разворачивается на фоне Клондайкской золотой лихорадки (1896-1899). Это была не просто декорация, а суровая реальность, которую сам Лондон испытал в 1897 году. Эта среда формировала характеры и определяла ценность жизни.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white/10 p-6 rounded-lg shadow-xl">
+                    <p class="text-5xl font-bold text-[#FF764A]">100,000+</p>
+                    <p class="mt-2 text-gray-300">Человек устремились на север</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-lg shadow-xl">
+                    <p class="text-5xl font-bold text-[#EF5675]">~35,000</p>
+                    <p class="mt-2 text-gray-300">Смогли добраться до региона Клондайк</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-lg shadow-xl">
+                    <p class="text-5xl font-bold text-[#BC5090]">1$</p>
+                    <p class="mt-2 text-gray-300">Стоимость одного куриного яйца в Доусоне</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="formation" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#FFA600]">Формирование Характера: 4 Этапа Эволюции</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-200 mb-12">
+                Путь Белого Клыка — это последовательность поведенческих адаптаций. Каждый хозяин олицетворял собой среду с уникальным «законом», который формировал характер волка.
+            </p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-4">
+
+                <div class="stage-card bg-white text-gray-800 p-6 rounded-lg shadow-lg w-full md:w-1/4">
+                    <h3 class="font-bold text-xl text-[#003F5C]">1. Дикая природа</h3>
+                    <p class="text-sm text-gray-500 mt-1">Влияние: Мать Кичи, стая</p>
+                    <hr class="my-3 border-gray-200">
+                    <p class="font-semibold text-[#7A5195]">Усвоенный закон:</p>
+                    <p class="text-gray-700">Закон выживания и добычи. «Ешь или съедят тебя».</p>
+                </div>
+
+                <div class="flow-arrow hidden md:block">→</div>
+                <div class="flow-arrow md:hidden">▼</div>
+
+                <div class="stage-card bg-white text-gray-800 p-6 rounded-lg shadow-lg w-full md:w-1/4">
+                    <h3 class="font-bold text-xl text-[#003F5C]">2. Индейское стойбище</h3>
+                    <p class="text-sm text-gray-500 mt-1">Влияние: Серый Бобр</p>
+                    <hr class="my-3 border-gray-200">
+                    <p class="font-semibold text-[#7A5195]">Усвоенный закон:</p>
+                    <p class="text-gray-700">Закон подчинения человеку и собственности.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:block">→</div>
+                <div class="flow-arrow md:hidden">▼</div>
+
+                <div class="stage-card bg-white text-gray-800 p-6 rounded-lg shadow-lg w-full md:w-1/4">
+                    <h3 class="font-bold text-xl text-[#003F5C]">3. Собачьи бои</h3>
+                    <p class="text-sm text-gray-500 mt-1">Влияние: Красавчик Смит</p>
+                    <hr class="my-3 border-gray-200">
+                    <p class="font-semibold text-[#7A5195]">Усвоенный закон:</p>
+                    <p class="text-gray-700">Закон дубинки и ненависти. Жестокость как норма.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:block">→</div>
+                <div class="flow-arrow md:hidden">▼</div>
+
+                <div class="stage-card bg-white text-gray-800 p-6 rounded-lg shadow-lg w-full md:w-1/4">
+                    <h3 class="font-bold text-xl text-[#003F5C]">4. Цивилизация</h3>
+                    <p class="text-sm text-gray-500 mt-1">Влияние: Уидон Скотт</p>
+                    <hr class="my-3 border-gray-200">
+                    <p class="font-semibold text-[#7A5195]">Усвоенный закон:</p>
+                    <p class="text-gray-700">Закон любви и преданности. Защита и привязанность.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="legacy" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-[#FFA600]">Публикация и Наследие</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Хронология</h3>
+                    <div class="relative border-l-4 border-[#7A5195] pl-6">
+                        <div class="mb-8">
+                            <div class="absolute w-4 h-4 bg-[#FFA600] rounded-full -left-[10px] border-4 border-[#7A5195]"></div>
+                            <p class="font-bold text-lg">Май 1906</p>
+                            <p class="text-gray-300">Начало публикации в журнале *The Outing Magazine*.</p>
+                        </div>
+                        <div class="mb-8">
+                            <div class="absolute w-4 h-4 bg-[#FFA600] rounded-full -left-[10px] border-4 border-[#7A5195]"></div>
+                            <p class="font-bold text-lg">Октябрь 1906</p>
+                            <p class="text-gray-300">Выход первого книжного издания в Macmillan and Company.</p>
+                        </div>
+                        <div>
+                            <div class="absolute w-4 h-4 bg-[#FFA600] rounded-full -left-[10px] border-4 border-[#7A5195]"></div>
+                            <p class="font-bold text-lg">1913</p>
+                            <p class="text-gray-300">Первая публикация в переводе на русский язык.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 p-6 rounded-lg shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4">Полемика о «фальсификаторах природы»</h3>
+                    <p class="text-gray-200">
+                        После выхода повести президент США Теодор Рузвельт публично раскритиковал сцену боя Белого Клыка с бульдогом, назвав ее «верхом абсурда». Это было частью широкой дискуссии о приписывании животным человеческих эмоций. Несмотря на это, повесть стала классикой, где художественная правда оказалась важнее зоологической точности.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-6 border-t border-white/20">
+            <p class="text-gray-400 text-sm">Инфографика создана на основе историко-литературной справки. 2024.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const ctx = document.getElementById('pathsChart').getContext('2d');
+        const pathsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Рождение', 'Встреча с человеком', 'Испытания', 'Финал'],
+                datasets: [{
+                    label: 'Белый Клык (от дикости к цивилизации)',
+                    data: [0, 1, 0.5, 3],
+                    borderColor: '#FFA600',
+                    backgroundColor: 'rgba(255, 166, 0, 0.2)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#FFA600',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#FFA600'
+                }, {
+                    label: ['Бэк, "Зов предков"', '(от цивилизации к дикости)'],
+                    data: [3, 2.5, 1, 0],
+                    borderColor: '#BC5090',
+                    backgroundColor: 'rgba(188, 80, 144, 0.2)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#BC5090',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#BC5090'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            font: {
+                                weight: 'bold'
+                            },
+                            callback: function(value, index, values) {
+                                const labels = {0: 'ДИКОСТЬ', 3: 'ЦИВИЛИЗАЦИЯ'};
+                                return labels[value] || '';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)',
+                             font: {
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            font: {
+                                size: 14
+                            },
+                            boxWidth: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#003F5C',
+                        titleColor: '#FFA600',
+                        bodyColor: '#FFFFFF',
+                        borderColor: '#7A5195',
+                        borderWidth: 1,
+                        padding: 10,
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.datasets[item.datasetIndex].label;
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
